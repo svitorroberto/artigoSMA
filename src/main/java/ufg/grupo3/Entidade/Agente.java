@@ -1,5 +1,4 @@
-package ufg.grupo3.Entidade;
-
+package ufg.grupo3.entidade;
 public class Agente {
 	
 	private String id;

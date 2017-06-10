@@ -1,12 +1,11 @@
 package ufg.grupo3.rest;
-
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-import ufg.grupo3.Entidade.Agente;
+import ufg.grupo3.entidade.Agente;
 
 @Path("/agentes")
 public class AgenteRest {

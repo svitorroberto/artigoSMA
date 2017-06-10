@@ -1,1 +1,1 @@
-# artigoSMA
+# API REST ArtigoSMA
