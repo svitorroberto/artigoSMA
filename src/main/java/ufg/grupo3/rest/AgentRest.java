@@ -3,7 +3,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import ufg.grupo3.entidade.TrasherAgent;
+import ufg.grupo3.entidade.AgenteSujador;
 
 import static javax.ws.rs.core.Response.Status.CREATED;
 
@@ -18,7 +18,7 @@ public class AgentRest {
 	@Path("/criarAgente")
 	@Produces("application/json")
 	public Response criaAgente() {
-		return Response.status(CREATED).entity( new TrasherAgent("asdfasdfasd999999") ).build();
+		return Response.status(CREATED).entity( new AgenteSujador("asdfasdfasd999999") ).build();
 	}
 	
 	/**
@@ -54,7 +54,7 @@ public class AgentRest {
 	@Path("/criacao")
 	@Produces("application/json")
 	public Response criacao()  {
-        return Response.status(200).entity(new TrasherAgent("asdfasdfasd999999")).build();
+        return Response.status(200).entity(new AgenteSujador("asdfasdfasd999999")).build();
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class AgentRest {
 	@Path("/alteracao")
     @Consumes(MediaType.APPLICATION_JSON)
 	@Produces("application/json")
-	public Response alteracao(TrasherAgent agent)  {
-        return Response.status(CREATED).entity( new TrasherAgent("qwer1234zxcv5678") ).build();
+	public Response alteracao(AgenteSujador agent)  {
+        return Response.status(CREATED).entity( new AgenteSujador("qwer1234zxcv5678") ).build();
 	}
 }

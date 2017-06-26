@@ -1,33 +1,22 @@
 package ufg.grupo3.jade;
 
-import jade.core.Agent;
-import jade.core.behaviours.SimpleBehaviour;
+import java.util.ArrayList;
 
-public class AgentController extends Agent{
+import jade.core.AID;
+import jade.core.Agent;
+import jade.core.AgentContainer;
+import jade.core.ContainerMonitorAgent;
+import jade.core.behaviours.SimpleBehaviour;
+import jade.wrapper.ContainerController;
+import jade.wrapper.ContainerProxy;
+import ufg.grupo3.entidade.AgenteSujador;
+
+public class AgentController extends ContainerMonitorAgent{
+	public static ArrayList<AID> agentesPoluidores = new ArrayList<>();
+
 	
-	protected void setup() 
-    {
-        addBehaviour( new myBehaviour( this ) );
-    }
-    
-    
-    class myBehaviour extends SimpleBehaviour
-    {   
-        public myBehaviour(Agent a) { 
-            super(a);  
-        }
-        
-        public void action() 
-        {
-           //...this is where the real programming goes !!
-        }
-        
-        private boolean finished = false;
-        
-        public boolean done() {  
-            return finished;  
-        }
-        
-    } // ----------- End myBehaviour
-    
-}//end class AgentController
+/*	ContainerController cc = getContainerController();
+	AgentController ac = cc.createNewAgent("TESTE", "AgenteSujador", null);
+	ac.start();
+    */
+}
