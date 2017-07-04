@@ -6,7 +6,7 @@ import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
-import ufg.grupo3.jade.AgentController;
+import ufg.grupo3.jade.JadeAgenteController;
 
 /**
  * @author Vítor Roberto
@@ -27,7 +27,7 @@ public class AgenteLimpador extends Agent {
 		System.out.println("Olá, sou o agente limpador " + getAID().getName() + " e estou pronto para limpar.");
 		ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
 		msg.setContent("Para de sujar");
-		AgentController.agentesPoluidores.forEach(item->{
+		JadeAgenteController.agentesPoluidores.forEach(item->{
 			msg.addReceiver(item);
 		});
 	    send(msg);

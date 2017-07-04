@@ -4,7 +4,7 @@ import jade.core.behaviours.Behaviour;
 import jade.domain.FIPAAgentManagement.AMSAgentDescription;
 import jade.lang.acl.ACLMessage;
 import ufg.grupo3.StatusEnum;
-import ufg.grupo3.jade.AgentController;
+import ufg.grupo3.jade.JadeAgenteController;
 
 public class LimparAmbienteBehaviour extends Behaviour {
 	private StatusEnum status = StatusEnum.ANDAR;
@@ -37,9 +37,9 @@ public class LimparAmbienteBehaviour extends Behaviour {
 	private void tentarConvencerPoluidor() {
 		ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
 		msg.setContent("Para de sujar");
-		AgentController.agentesPoluidores.forEach(item->{
-			msg.addReceiver(item);
+		JadeAgenteController.agentesPoluidores.forEach((id,agente)->{
+			msg.addReceiver(agente.getAID());
 		});
-	    send(msg);
+//	    send(msg);
 		status = StatusEnum.ANDAR;
 }}

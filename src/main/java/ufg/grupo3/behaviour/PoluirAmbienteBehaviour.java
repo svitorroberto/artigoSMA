@@ -13,16 +13,16 @@ public class PoluirAmbienteBehaviour extends CyclicBehaviour {
 
 	@Override
 	public void action() {
-		ACLMessage msg = receive();
+		/*ACLMessage msg = receive();
 		if (msg != null){
 			System.out.println(" - " + myAgent.getLocalName() + " <- " + msg.getContent());
 		}
 		ACLMessage reply = msg.createReply();
 		reply.setPerformative(ACLMessage.INFORM);
 		reply.setContent("Pong");
-		reply.send();
+		reply.send();*/
 	}
 
-	block();
+//	block();
 
 }
