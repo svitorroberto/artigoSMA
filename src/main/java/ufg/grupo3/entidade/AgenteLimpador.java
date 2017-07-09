@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
+import jade.domain.AMSService;
+import jade.domain.FIPAException;
+import jade.domain.FIPAAgentManagement.AMSAgentDescription;
+import jade.domain.FIPAAgentManagement.SearchConstraints;
 import jade.lang.acl.ACLMessage;
 import ufg.grupo3.jade.JadeAgenteController;
 
@@ -20,13 +24,17 @@ public class AgenteLimpador extends Agent {
 	private static final long serialVersionUID = 4450216313806774286L;
 	private String id;
 	
-	AID aid = new AID("CAT", AID.ISLOCALNAME);
+	public AgenteLimpador(String id) {
+		super();
+		this.id = id;
+	}
 	
 	@Override
 	protected void setup() {
 		System.out.println("Olá, sou o agente limpador " + getAID().getName() + " e estou pronto para limpar.");
 		ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
 		msg.setContent("Para de sujar");
+		/*
 		JadeAgenteController.agentesPoluidores.forEach(item->{
 			msg.addReceiver(item);
 		});
@@ -42,6 +50,7 @@ public class AgenteLimpador extends Agent {
 				block();
 			 }
 		});
+	    */
 	}
 	
 	@Override
@@ -52,12 +61,20 @@ public class AgenteLimpador extends Agent {
 	public AgenteLimpador(){
 		// TODO Auto-generated constructor stub
 	}
-
-	public AID getAid() {
-		return aid;
+	
+	public String getId() {
+		return id;
 	}
 
-	public void setAid(AID aid) {
-		this.aid = aid;
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void recuperarInformacoesDoContainer() throws FIPAException{
+		AMSAgentDescription [] agents = null;
+		SearchConstraints c = new SearchConstraints();
+        c.setMaxResults ( new Long(-1) );
+        AID a = getAMS();
+        agents = AMSService.search( this, new AMSAgentDescription (), c );
 	}
 }
