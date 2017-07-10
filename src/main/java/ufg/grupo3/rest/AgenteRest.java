@@ -58,11 +58,12 @@ public class AgenteRest {
 	 * 
 	 * @return {@link Boolean}
 	 * @throws ControllerException 
+	 * @throws InterruptedException 
 	 */
 	@GET
 	@Path("/cooperacao/{descricao}")
 	@Produces("application/json")
-	public Response cooperacao(@PathParam("descricao") String descricaoAgente) throws ControllerException {
+	public Response cooperacao(@PathParam("descricao") String descricaoAgente) throws ControllerException, InterruptedException {
 		return Response.status(OK).entity(agenteController.comunicarAgente(descricaoAgente)).build();
 	}
 

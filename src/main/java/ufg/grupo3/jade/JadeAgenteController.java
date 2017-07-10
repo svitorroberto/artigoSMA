@@ -10,8 +10,7 @@ import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 import jade.wrapper.ControllerException;
 import jade.wrapper.StaleProxyException;
-import ufg.grupo3.behaviour.ConvencerPoluidorBehaviour;
-import ufg.grupo3.entidade.AgenteLimpador;
+import ufg.grupo3.Interacao;
 import ufg.grupo3.entidade.AgentePoluidor;
 
 public class JadeAgenteController {
@@ -32,7 +31,7 @@ public class JadeAgenteController {
 	 */
 	public Agent criarAgente(Boolean isPoluidor) throws StaleProxyException {
 		AgentController ag;
-		String descricao = "sujador0" + contador;
+		String descricao = "poluidor0" + contador;
 
 		if (isPoluidor) {
 			ag = container.createNewAgent(descricao, POLUIDOR_CLASS, new Object[] {});
@@ -66,15 +65,15 @@ public class JadeAgenteController {
 	 * @param idAgente
 	 * @return {@link Boolean}
 	 * @throws ControllerException
+	 * @throws InterruptedException 
 	 */
-	public Boolean comunicarAgente(String nomeAgente) throws ControllerException {
-		// TODO implementar a comunicação entre agentes
+	public Boolean comunicarAgente(String nomeAgente) throws ControllerException, InterruptedException {
 		Boolean isCooperativo = Math.random() > 0.5 ? Boolean.TRUE : Boolean.FALSE;
 		AgentController agente = container.getAgent(AGENTE_LIMPADOR);
-		AgenteLimpador a = agente.getO2AInterface(AgenteLimpador.class);
-		a.addBehaviour(new ConvencerPoluidorBehaviour());
-
-		return isCooperativo;
+		agente.putO2AObject(new Interacao("convencer"), true);
+//		AgenteLimpador al = agente.getO2AInterface(AgenteLimpador.class);
+//		Interacao o = (Interacao) al.getO2AObject();
+		return Boolean.FALSE;
 	}
 
 	/**

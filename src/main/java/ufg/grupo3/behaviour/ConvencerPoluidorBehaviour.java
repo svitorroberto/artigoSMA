@@ -16,9 +16,8 @@ public class ConvencerPoluidorBehaviour extends Behaviour {
 		switch (step) {
 		case 0:
 			ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-			msg.addReceiver(new AID("sujador[1]", AID.ISLOCALNAME));
+			msg.addReceiver(new AID("poluidor01", AID.ISLOCALNAME));
 			msg.setLanguage("Portuguese");
-			msg.setOntology("Weather-forecast-ontology");
 			msg.setPerformative(ACLMessage.PROPOSE);
 			msg.setConversationId("meio-ambiente");
 			msg.setContent("Quer cooperar com a limpeza do meio ambiente?");
@@ -31,11 +30,10 @@ public class ConvencerPoluidorBehaviour extends Behaviour {
 			ACLMessage reply = myAgent.receive(mt);
 			if (reply != null) {
 				if(reply.getPerformative()==ACLMessage.ACCEPT_PROPOSAL){
-					myAgent.addBehaviour(new PoluidorFoiConvencido());
+					System.out.println("POLUIDOR FOI CONVENCIDO");
 					step = 2;
 				}else if (reply.getPerformative()==ACLMessage.REJECT_PROPOSAL){
-					myAgent.addBehaviour(new PoluidorNaoFoiConvencido());
-					
+					System.out.println("POLUIDOR NAO FOI CONVENCIDO");
 					step = 2;
 				}
 			}else {

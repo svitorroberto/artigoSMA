@@ -1,7 +1,9 @@
 package ufg.grupo3.entidade;
 
 import jade.core.Agent;
-import ufg.grupo3.behaviour.PoluirAmbienteBehaviour;
+import jade.core.behaviours.CyclicBehaviour;
+import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 
 public class AgentePoluidor extends Agent {
 
@@ -10,11 +12,30 @@ public class AgentePoluidor extends Agent {
 	 */
 	private static final long serialVersionUID = 4450216311234574286L;
 	private String descricao;
+	private MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.PROPOSE);
 
 	@Override
 	public void setup() {
 		System.out.println("Olá, sou o agente poluidor " + getAID().getName() + " e estou pronto.");
-		addBehaviour(new PoluirAmbienteBehaviour());
+		setEnabledO2ACommunication(true, 0);
+		addBehaviour(new CyclicBehaviour(this) {
+			public void action() {
+				ACLMessage msg = myAgent.receive(mt);
+				if (msg != null) {
+					System.out.println(" - " + myAgent.getLocalName() + " <- " + msg.getContent());
+					ACLMessage reply = msg.createReply();
+					int acl = Math.random() > 0.3 ? ACLMessage.REJECT_PROPOSAL : ACLMessage.ACCEPT_PROPOSAL;
+					reply.setPerformative(acl);
+					reply.setConversationId("meio-ambiente");
+					reply.setContent("Resposta");
+					myAgent.send(reply);
+				}
+				 else {
+					block();
+				}
+			}
+			
+		});
 
 	}
 

@@ -42,8 +42,9 @@ public class AgenteController {
 	 * @param idAgente
 	 * @return {@link Boolean}
 	 * @throws ControllerException 
+	 * @throws InterruptedException 
 	 */
-	public Boolean comunicarAgente(String descricaoAgente) throws ControllerException{
+	public Boolean comunicarAgente(String descricaoAgente) throws ControllerException, InterruptedException{
 		return jadeAgenteController.comunicarAgente(descricaoAgente);
 	}
 	
