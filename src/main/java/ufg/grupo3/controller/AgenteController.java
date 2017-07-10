@@ -1,17 +1,9 @@
 package ufg.grupo3.controller;
 
-import java.io.IOException;
-
 import jade.core.Agent;
-import jade.core.Profile;
-import jade.core.ProfileImpl;
-import jade.domain.AMSService;
 import jade.domain.FIPAException;
-import jade.domain.FIPAAgentManagement.AMSAgentDescription;
-import jade.domain.FIPAAgentManagement.SearchConstraints;
+import jade.wrapper.ControllerException;
 import jade.wrapper.StaleProxyException;
-import ufg.grupo3.entidade.AgenteLimpador;
-import ufg.grupo3.entidade.AgentePoluidor;
 import ufg.grupo3.jade.JadeAgenteController;
 
 public class AgenteController {
@@ -36,11 +28,10 @@ public class AgenteController {
 	 * @param idAgente
 	 * @return {@link Agent}
 	 * @throws FIPAException 
+	 * @throws ControllerException 
 	 */
-	public Agent destruirAgente(Long idAgente) throws FIPAException{
-		AgenteLimpador a = new AgenteLimpador("asdfasdfasd999999");
-		a.recuperarInformacoesDoContainer();
-		return a;
+	public void destruirAgente(String descricaoAgente) throws ControllerException{
+		jadeAgenteController.destruirAgente(descricaoAgente);
 	}
 
 	/**
@@ -50,15 +41,10 @@ public class AgenteController {
 	 * 
 	 * @param idAgente
 	 * @return {@link Boolean}
+	 * @throws ControllerException 
 	 */
-	public Boolean comunicarAgente(Long idAgente){
-		return jadeAgenteController.comunicarAgente(idAgente);
-	}
-	
-	public void iniciarAplicacao() throws IOException{
-		Runtime rt = Runtime.getRuntime();
-		Process pr = rt.exec("java jade.Boot -gui -agents limpador:ufg.grupo3.entidade.AgenteLimpador -port 9999");
-		System.out.println(pr.getOutputStream());
+	public Boolean comunicarAgente(String descricaoAgente) throws ControllerException{
+		return jadeAgenteController.comunicarAgente(descricaoAgente);
 	}
 	
 	/**

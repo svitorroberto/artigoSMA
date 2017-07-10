@@ -7,7 +7,7 @@ public class LimparAmbienteBehaviour extends Behaviour {
 
 	@Override
 	public void action() {
-		System.out.println("Estou limpando o meio ambiente e vou convencê-los a parar de poluir");
+//		System.out.println("Estou limpando o meio ambiente e vou convencê-los a parar de poluir");
 	}
 
 	@Override

@@ -8,15 +8,17 @@ import jade.core.ProfileImpl;
 import jade.core.Runtime;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
+import jade.wrapper.ControllerException;
 import jade.wrapper.StaleProxyException;
-import ufg.grupo3.controller.AgenteController;
+import ufg.grupo3.behaviour.ConvencerPoluidorBehaviour;
+import ufg.grupo3.entidade.AgenteLimpador;
 import ufg.grupo3.entidade.AgentePoluidor;
 
 public class JadeAgenteController {
 	public static HashMap<Integer, Agent> agentesPoluidores = new HashMap<>();
-	private static String IP_LOCALHOST = "192.168.1.8";
 	private static String POLUIDOR_CLASS = "ufg.grupo3.entidade.AgentePoluidor";
 	private static String LIMPADOR_CLASS = "ufg.grupo3.entidade.AgenteLimpador";
+	private static String AGENTE_LIMPADOR = "limpador";
 	static private Integer contador = 1;
 	Runtime runtime = Runtime.instance();
 	static ContainerController container;
@@ -30,17 +32,17 @@ public class JadeAgenteController {
 	 */
 	public Agent criarAgente(Boolean isPoluidor) throws StaleProxyException {
 		AgentController ag;
-		String nome = "sujador[" + contador + "]";
-		
-		if(isPoluidor){
-			ag = container.createNewAgent(nome, POLUIDOR_CLASS, new Object[] {});
+		String descricao = "sujador0" + contador;
+
+		if (isPoluidor) {
+			ag = container.createNewAgent(descricao, POLUIDOR_CLASS, new Object[] {});
 			contador++;
 		} else {
 			ag = container.createNewAgent("limpador", LIMPADOR_CLASS, new Object[] {});
 		}
 
 		ag.start();
-		return new AgentePoluidor(nome);
+		return new AgentePoluidor(descricao);
 	}
 
 	/**
@@ -49,10 +51,11 @@ public class JadeAgenteController {
 	 * 
 	 * @param idAgente
 	 * @return {@link Agent}
+	 * @throws ControllerException
 	 */
-	public Agent destruirAgente(Long idAgente) {
-		// TODO implementar a morte do agente
-		return new AgentePoluidor("asdfasdfasd999999");
+	public void destruirAgente(String nomeAgente) throws ControllerException {
+		AgentController agente = container.getAgent(nomeAgente);
+		agente.kill();
 	}
 
 	/**
@@ -62,17 +65,22 @@ public class JadeAgenteController {
 	 * 
 	 * @param idAgente
 	 * @return {@link Boolean}
+	 * @throws ControllerException
 	 */
-	public Boolean comunicarAgente(Long idAgente) {
+	public Boolean comunicarAgente(String nomeAgente) throws ControllerException {
 		// TODO implementar a comunicação entre agentes
 		Boolean isCooperativo = Math.random() > 0.5 ? Boolean.TRUE : Boolean.FALSE;
+		AgentController agente = container.getAgent(AGENTE_LIMPADOR);
+		AgenteLimpador a = agente.getO2AInterface(AgenteLimpador.class);
+		a.addBehaviour(new ConvencerPoluidorBehaviour());
+
 		return isCooperativo;
 	}
 
 	/**
-	 * Cria um container que vai ser usados pelos agentes sujadores
+	 * Cria um container que vai ser usados pelos agentes sujadores.
 	 * 
-	 * @param ip
+	 * @param ip (ip local da maquina)
 	 * @return {@link Boolean}
 	 */
 	public Boolean criarContainer(String ip) {
@@ -80,8 +88,9 @@ public class JadeAgenteController {
 		profile.setParameter(Profile.CONTAINER_NAME, "Container-EcoCat");
 		profile.setParameter(Profile.MAIN_HOST, ip);
 		profile.setParameter(Profile.MAIN_PORT, "9999");
-		// create a non-main agent container
+		// cria um container nao principal
 		container = runtime.createAgentContainer(profile);
+
 		return container != null ? Boolean.TRUE : Boolean.FALSE;
 	}
 }

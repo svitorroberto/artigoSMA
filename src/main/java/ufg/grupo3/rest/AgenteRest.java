@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 
 import jade.core.Agent;
 import jade.domain.FIPAException;
+import jade.wrapper.ControllerException;
 import jade.wrapper.StaleProxyException;
 import ufg.grupo3.controller.AgenteController;
 
@@ -38,31 +39,31 @@ public class AgenteRest {
 	}
 
 	/**
-	 * Destroi um AgentePoluidor pelo ID
+	 * Destroi um AgentePoluidor pela descricao
 	 * 
 	 * @return {@link Response}
+	 * @throws ControllerException 
 	 * @throws FIPAException
 	 */
 	@DELETE
-	@Path("/{id}")
+	@Path("/{descricao}")
 	@Produces("application/json")
-	public Response destroiAgente(@PathParam("id") Long idAgente) throws FIPAException {
-		Agent destruido = agenteController.destruirAgente(idAgente);
-		return (destruido == null) ? Response.status(NOT_ACCEPTABLE).build()
-				: Response.status(OK).entity(destruido).build();
+	public Response destroiAgente(@PathParam("descricao") String descricao) throws ControllerException{
+		agenteController.destruirAgente(descricao);
+		return Response.status(OK).build();
 	}
 
 	/**
-	 * Faz a comunicação de um AgentePoluidor com o AgenteLimpador
+	 * Faz a comunicação de um AgenteLimpador com o AgentePoluidor
 	 * 
 	 * @return {@link Boolean}
+	 * @throws ControllerException 
 	 */
 	@GET
-	@Path("/cooperacao/{id}")
+	@Path("/cooperacao/{descricao}")
 	@Produces("application/json")
-	public Response cooperacao(@PathParam("id") Long idAgente) {
-		agenteController.comunicarAgente(idAgente);
-		return Response.status(OK).entity(agenteController.comunicarAgente(idAgente)).build();
+	public Response cooperacao(@PathParam("descricao") String descricaoAgente) throws ControllerException {
+		return Response.status(OK).entity(agenteController.comunicarAgente(descricaoAgente)).build();
 	}
 
 	/**
@@ -75,7 +76,7 @@ public class AgenteRest {
 	@PUT
 	@Path("/container/{ip}")
 	@Produces("application/json")
-	public Response container(@PathParam("ip") String ip) throws IOException, StaleProxyException {
+	public Response container(@PathParam("ip") String ip) throws StaleProxyException {
 		Boolean resultado = agenteController.criarContainer(ip);
 		return resultado ? Response.status(CREATED).build() : Response.status(NOT_ACCEPTABLE).build();
 	}
